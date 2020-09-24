@@ -20,6 +20,7 @@ class NewPet extends Component {
     longitude: null,
     location_key: null,
     locdetails: null,
+    country: null,
   };
   /* This is where the magic happens
    */
@@ -29,29 +30,21 @@ class NewPet extends Component {
     let fields = this.state.fields;
     this.setState({ location: fields["location"] });
     getCityLocation(fields["location"]).then((res) => {
-      console.log(res);
-      console.log(res[0].Key);
-      console.log(res[0].GeoPosition.Latitude);
-      console.log(res[0].GeoPosition.Longitude);
       this.setState({ latitude: res[0].GeoPosition.Latitude });
       this.setState({ longitude: res[0].GeoPosition.Longitude });
       this.setState({ location_key: res[0].Key });
       this.setState({ location: res[0].EnglishName });
+      this.setState({ country: res[0].Country.EnglishName });
       fields["latitude"] = res[0].GeoPosition.Latitude;
       fields["longitude"] = res[0].GeoPosition.Longitude;
       fields["location_key"] = res[0].Key;
       fields["location"] = res[0].EnglishName;
+      fields["country"] = res[0].Country.EnglishName;
       this.setState({ fields });
-      console.log(this.state);
-      // console.log(res.Key);
-      // console.log(res.GeoPosition.Latitude);
-      // console.log(res.GeoPosition.Longitude);
     });
   };
 
   handleSubmit = (event) => {
-    console.log("Handle submit:");
-    console.log(this.state);
     event.preventDefault();
     if (this.handleValidation()) {
       let fields = this.state.fields;
@@ -63,12 +56,11 @@ class NewPet extends Component {
         latitude: fields["latitude"],
         longitude: fields["longitude"],
         location_key: fields["location_key"],
+        country: fields["country"],
       };
       axios
         .post(`${SHELTER_API_URL}pet`, JSON.parse(JSON.stringify(pet)))
         .then((res) => {
-          console.log(res);
-          console.log(res.data);
           window.location = "/"; //This line of code will redirect you once the submission is succeed
         });
     } else {
@@ -87,7 +79,7 @@ class NewPet extends Component {
     }
 
     if (typeof fields["name"] !== "undefined") {
-      if (!fields["name"].match(/^[a-zA-Z0-9]+$/)) {
+      if (!fields["name"].match(/^[a-zA-Z0-9 ]+$/)) {
         formIsValid = false;
         errors["name"] = "Pet's Name should be alphanumeric";
       }
@@ -98,7 +90,7 @@ class NewPet extends Component {
     }
 
     if (typeof fields["type"] !== "undefined") {
-      if (!fields["type"].match(/^[a-zA-Z0-9]+$/)) {
+      if (!fields["type"].match(/^[a-zA-Z0-9 ]+$/)) {
         formIsValid = false;
         errors["type"] = "Pet's Type should be alphanumeric";
       }
@@ -110,7 +102,7 @@ class NewPet extends Component {
     }
 
     if (typeof fields["breed"] !== "undefined") {
-      if (!fields["breed"].match(/^[a-zA-Z0-9]+$/)) {
+      if (!fields["breed"].match(/^[a-zA-Z0-9 ]+$/)) {
         formIsValid = false;
         errors["breed"] = "Pet's Breed should be alphanumeric";
       }
@@ -122,7 +114,7 @@ class NewPet extends Component {
     }
 
     if (typeof fields["location"] !== "undefined") {
-      if (!fields["location"].match(/^[a-zA-Z0-9]+$/)) {
+      if (!fields["location"].match(/^[a-zA-Z0-9 ]+$/)) {
         formIsValid = false;
         errors["location"] = "Pet's City should be alphanumeric";
       }
@@ -136,7 +128,13 @@ class NewPet extends Component {
     if (!fields["longitude"]) {
       formIsValid = false;
       errors["longitude"] =
-        "Wrong City! Please correct the city and search agai";
+        "Wrong City! Please correct the city and search again";
+    }
+
+    if (!fields["country"]) {
+      formIsValid = false;
+      errors["Country"] =
+        "Wrong Country! Please correct the city and search again";
     }
 
     this.setState({ errors: errors });
@@ -202,6 +200,19 @@ class NewPet extends Component {
             <span style={{ color: "red" }}>
               {this.state.errors["location"]}
             </span>
+          </label>
+          <br />
+          <label>
+            {" "}
+            <b>Country:</b>
+            <input
+              type="text"
+              disabled={true}
+              onChange={this.handleChange.bind(this, "country")}
+              value={this.state.fields["country"]}
+            />
+            <br />
+            <span style={{ color: "red" }}>{this.state.errors["country"]}</span>
           </label>
           <br />
           <label>

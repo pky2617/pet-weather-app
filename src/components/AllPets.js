@@ -62,6 +62,9 @@ class AllPets extends Component {
               <TableCell align="right" width="50px">
                 <b> Location (City)</b>
               </TableCell>
+              <TableCell align="right" width="50px">
+                <b> Location (Country)</b>
+              </TableCell>
 
               <TableCell align="right" width="50px">
                 <b>View Details</b>
@@ -77,6 +80,7 @@ class AllPets extends Component {
                 <TableCell align="right">{pet.type}</TableCell>
                 <TableCell align="right">{pet.breed}</TableCell>
                 <TableCell align="right">{pet.location}</TableCell>
+                <TableCell align="right">{pet.country}</TableCell>
 
                 <TableCell align="right">
                   <Link to={`/pets/${pet.id}/${pet.location_key}`}>View</Link>
