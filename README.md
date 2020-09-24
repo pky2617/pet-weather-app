@@ -8,6 +8,10 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 
 # The app will start on port 3000 as configured in config.js
 
+# This App is deployed on Heroku and can be access by below link:
+
+https://fathomless-reef-38395.herokuapp.com
+
 # This app will consume the below APIs
 
 1. Pet Shelter APIs deployed on Heroku at: https://pet-shelter-2020.herokuapp.com
