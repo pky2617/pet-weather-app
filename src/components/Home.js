@@ -1,6 +1,4 @@
 import React, { Component } from "react";
-
-import Pets from "./Pets";
 import AllPets from "./AllPets";
 
 class Home extends Component {

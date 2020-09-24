@@ -1,6 +1,5 @@
 import React, { Component } from "react";
 import { BrowserRouter, Route, Switch } from "react-router-dom";
-import { Link } from "react-router-dom";
 import Home from "./components/Home";
 import NewPet from "./components/NewPet";
 
@@ -17,7 +16,7 @@ class App extends Component {
           <div>
             <Navigation />
             <Switch>
-              <Route path="/" exact component={Home} exact />
+              <Route path="/" exact component={Home} />
               <Route path="/pets/new" exact component={NewPet} />
               <Route path="/pets" exact component={Home} />
               <Route path="/pets/:id/:loc" exact component={PetDetails} />

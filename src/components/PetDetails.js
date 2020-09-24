@@ -6,7 +6,6 @@ import TableContainer from "@material-ui/core/TableContainer";
 import TableHead from "@material-ui/core/TableHead";
 import TableRow from "@material-ui/core/TableRow";
 import Paper from "@material-ui/core/Paper";
-import { BrowserRouter as Router, Route, Link, Switch } from "react-router-dom";
 import { SHELTER_API_URL } from "../config/config";
 import { getWeather } from "../api/Api";
 import petsnorain from "../images/petsnorain.jpg";

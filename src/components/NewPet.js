@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 import styled from "@emotion/styled";
 import axios from "axios";
-import getLocations from "../api/Api";
 import { getCityLocation } from "../api/Api";
 
 import { SHELTER_API_URL } from "../config/config";
