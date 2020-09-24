@@ -11,6 +11,14 @@ import { SHELTER_API_URL } from "../config/config";
 import { getWeather } from "../api/Api";
 import petsnorain from "../images/petsnorain.jpg";
 import petwithumbrella from "../images/petwithumbrella.jpg";
+import { css } from "@emotion/core";
+import ClipLoader from "react-spinners/ClipLoader";
+
+const override = css`
+  display: block;
+  margin: 0 auto;
+  border-color: blue;
+`;
 
 class PetDetails extends Component {
   constructor(props) {
@@ -18,7 +26,7 @@ class PetDetails extends Component {
 
     this.state = {
       error: null,
-      isLoaded: false,
+      loading: true,
       pets: [],
       petid: props.match.params.id,
       lockey: props.match.params.loc,
@@ -39,7 +47,7 @@ class PetDetails extends Component {
       .then((res) => res.json())
       .then((result) =>
         this.setState({
-          isLoaded: true,
+          loading: false,
           pets: JSON.parse(JSON.stringify(result)),
           error: null,
         })
@@ -49,11 +57,9 @@ class PetDetails extends Component {
   }
 
   callWeatherAPI(lockey) {
-    let rain = true;
-
     getWeather(lockey).then((res) => {
       this.setState({
-        isLoaded: true,
+        loading: false,
         rainProb: res.DailyForecasts[0].Day.HasPrecipitation,
         iconPhrase: res.DailyForecasts[0].Day.IconPhrase,
         error: null,
@@ -68,6 +74,14 @@ class PetDetails extends Component {
   render() {
     return (
       <TableContainer component={Paper}>
+        <div className="sweet-loading">
+          <ClipLoader
+            css={override}
+            size={150}
+            color={"#123abc"}
+            loading={this.state.loading}
+          />
+        </div>
         <Table size="small" aria-label="a dense table" width="300px">
           <TableHead>
             <TableRow>

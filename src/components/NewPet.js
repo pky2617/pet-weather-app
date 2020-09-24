@@ -61,7 +61,16 @@ class NewPet extends Component {
       axios
         .post(`${SHELTER_API_URL}pet`, JSON.parse(JSON.stringify(pet)))
         .then((res) => {
-          window.location = "/"; //This line of code will redirect you once the submission is succeed
+          if (res.status === 200) {
+            window.location = "/"; //This line of code will redirect you once the submission is succeed
+          } else {
+            console.log(res);
+            alert("Error occured while saving data");
+          }
+        })
+        .catch((error) => {
+          alert(`Error occured while saving data : ${error}`);
+          console.log(error);
         });
     } else {
       console.log("Validation errors in form data");
