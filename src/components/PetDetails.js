@@ -22,6 +22,8 @@ class PetDetails extends Component {
       lockey: props.match.params.loc,
       rainProb: true,
       iconPhrase: "",
+      petname: "",
+      petloc: "",
     };
   }
 
@@ -41,7 +43,7 @@ class PetDetails extends Component {
           error: null,
         })
       )
-      .then((result) => console.log("res", result));
+      .catch(console.error);
     this.callWeatherAPI(this.state.lockey);
   }
 
@@ -105,7 +107,7 @@ class PetDetails extends Component {
                 <b>Pet's Location</b>
               </TableCell>
               <TableCell align="right" width="50px">
-                <b>Precipitation Probability</b>
+                <b>Chances of Precipitation</b>
               </TableCell>
               <TableCell align="right" width="50px">
                 <b> Weather Forecast</b>
@@ -129,9 +131,14 @@ class PetDetails extends Component {
         </Table>
 
         <div hidden={this.state.rainProb}>
-          <p>
+          <span>
             <img src="https://lh3.googleusercontent.com/proxy/DiI6Ct6kJyUjsagOOM5jYEW94mtMKQA6biqdl7Mgl3qqSVr-zFxHLTMXUqY23ySvhRVYuv4pPMtGs510Z2vXSB6WXg5oN4MhwrsM1kt_yHs3wlkDadwQPytR-05QT6jl9LN34F30jwAtw6Dv"></img>
-          </p>
+          </span>
+          <span>
+            <b>Yup!</b>
+            <br />
+            {`Looks like  `}
+          </span>
         </div>
         <div hidden={!this.state.rainProb}>
           <p>

@@ -53,55 +53,95 @@ class NewPet extends Component {
     console.log("Handle submit:");
     console.log(this.state);
     event.preventDefault();
+    if (this.handleValidation()) {
+      let fields = this.state.fields;
+      const pet = {
+        name: fields["name"],
+        type: fields["type"],
+        breed: fields["breed"],
+        location: fields["location"],
+        latitude: fields["latitude"],
+        longitude: fields["longitude"],
+        location_key: fields["location_key"],
+      };
+      axios
+        .post(`${SHELTER_API_URL}pet`, JSON.parse(JSON.stringify(pet)))
+        .then((res) => {
+          console.log(res);
+          console.log(res.data);
+          window.location = "/"; //This line of code will redirect you once the submission is succeed
+        });
+    } else {
+      console.log("Validation errors in form data");
+    }
+  };
+  handleValidation() {
     let fields = this.state.fields;
-    const pet = {
-      name: fields["name"],
-      type: fields["type"],
-      breed: fields["breed"],
-      location: fields["location"],
-      latitude: fields["latitude"],
-      longitude: fields["longitude"],
-      location_key: fields["location_key"],
-    };
-    axios
-      .post(`${SHELTER_API_URL}pet`, JSON.parse(JSON.stringify(pet)))
-      .then((res) => {
-        console.log(res);
-        console.log(res.data);
-        window.location = "/"; //This line of code will redirect you once the submission is succeed
-      });
-  };
-  handleChangeName = (event) => {
-    this.setState({ name: event.target.value });
-    console.log("Handle change:");
-    console.log(this.state);
-  };
-  handleChangeType = (event) => {
-    this.setState({ type: event.target.value });
-    console.log("Handle change:");
-    console.log(this.state);
-  };
-  handleChangeBreed = (event) => {
-    this.setState({ breed: event.target.value });
-    console.log("Handle change:");
-    console.log(this.state);
-  };
-  handleChangeLocation = (event) => {
-    this.setState({ location: event.target.value });
-    console.log("Handle change:");
-    console.log(this.state);
-  };
+    let errors = {};
+    let formIsValid = true;
 
-  handleChangeLatitude = (event) => {
-    this.setState({ latitude: event.target.value });
-    console.log("Handle change:");
-    console.log(this.state);
-  };
-  handleChangeLongitude = (event) => {
-    this.setState({ longitude: event.target.value });
-    console.log("Handle change:");
-    console.log(this.state);
-  };
+    //Name
+    if (!fields["name"]) {
+      formIsValid = false;
+      errors["name"] = "Pet's Name cannot be empty";
+    }
+
+    if (typeof fields["name"] !== "undefined") {
+      if (!fields["name"].match(/^[a-zA-Z0-9]+$/)) {
+        formIsValid = false;
+        errors["name"] = "Pet's Name should be alphanumeric";
+      }
+    }
+    if (!fields["type"]) {
+      formIsValid = false;
+      errors["type"] = "Pet's Type cannot be empty";
+    }
+
+    if (typeof fields["type"] !== "undefined") {
+      if (!fields["type"].match(/^[a-zA-Z0-9]+$/)) {
+        formIsValid = false;
+        errors["type"] = "Pet's Type should be alphanumeric";
+      }
+    }
+
+    if (!fields["breed"]) {
+      formIsValid = false;
+      errors["breed"] = "Pet's Breed cannot be empty";
+    }
+
+    if (typeof fields["breed"] !== "undefined") {
+      if (!fields["breed"].match(/^[a-zA-Z0-9]+$/)) {
+        formIsValid = false;
+        errors["breed"] = "Pet's Breed should be alphanumeric";
+      }
+    }
+
+    if (!fields["location"]) {
+      formIsValid = false;
+      errors["location"] = "Pet's City cannot be empty";
+    }
+
+    if (typeof fields["location"] !== "undefined") {
+      if (!fields["location"].match(/^[a-zA-Z0-9]+$/)) {
+        formIsValid = false;
+        errors["location"] = "Pet's City should be alphanumeric";
+      }
+    }
+    if (!fields["latitude"]) {
+      formIsValid = false;
+      errors["latitude"] =
+        "Wrong City! Please correct the city and search again";
+    }
+
+    if (!fields["longitude"]) {
+      formIsValid = false;
+      errors["longitude"] =
+        "Wrong City! Please correct the city and search agai";
+    }
+
+    this.setState({ errors: errors });
+    return formIsValid;
+  }
   handleChange(field, e) {
     let fields = this.state.fields;
     fields[field] = e.target.value;
@@ -113,67 +153,85 @@ class NewPet extends Component {
         <form onSubmit={this.handleSubmit}>
           <label>
             {" "}
-            Pet Name:
+            <b>Pet's Name:</b>
             <input
               type="text"
               onChange={this.handleChange.bind(this, "name")}
               value={this.state.fields["name"]}
             />
+            <br />
+            <span style={{ color: "red" }}>{this.state.errors["name"]}</span>
           </label>
           <br />
           <label>
             {" "}
-            Type:
+            <b>Pet's Type:</b>
             <input
               type="text"
               onChange={this.handleChange.bind(this, "type")}
               value={this.state.fields["type"]}
             />
+            <br />
+            <span style={{ color: "red" }}>{this.state.errors["name"]}</span>
           </label>
           <br />
           <label>
             {" "}
-            Breed:
+            <b>Pet's Breed:</b>
             <input
               type="text"
               onChange={this.handleChange.bind(this, "breed")}
               value={this.state.fields["breed"]}
             />
+            <br />
+            <span style={{ color: "red" }}>{this.state.errors["breed"]}</span>
           </label>
           <br />
           <label>
             {" "}
-            City:
+            <b>City</b>(only City name allowed)<b>:</b>
             <input
               type="text"
               onChange={this.handleChange.bind(this, "location")}
               value={this.state.fields["location"]}
             />{" "}
             <a href="#" onClick={this.searchCityLoc}>
-              Search City
+              <b>Search City</b>
             </a>
+            <br />
+            <span style={{ color: "red" }}>
+              {this.state.errors["location"]}
+            </span>
           </label>
           <br />
           <label>
             {" "}
-            Latitude:
+            <b>Latitude:</b>
             <input
               type="float"
               disabled={true}
               onChange={this.handleChange.bind(this, "latitude")}
               value={this.state.fields["latitude"]}
             />
+            <br />
+            <span style={{ color: "red" }}>
+              {this.state.errors["latitude"]}
+            </span>
           </label>
           <br />
           <label>
             {" "}
-            Longitdue:
+            <b>Longitdue:</b>
             <input
               type="float"
               disabled={true}
               onChange={this.handleChange.bind(this, "longitude")}
               value={this.state.fields["longitude"]}
             />
+            <br />
+            <span style={{ color: "red" }}>
+              {this.state.errors["longitude"]}
+            </span>
           </label>
 
           <br />

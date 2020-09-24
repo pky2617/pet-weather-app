@@ -50,21 +50,21 @@ class AllPets extends Component {
         <Table size="small" aria-label="a dense table" width="300px">
           <TableHead>
             <TableRow>
-              <TableCell width="50px">Pet Name</TableCell>
-              <TableCell align="right" width="50px">
-                Type
+              <TableCell width="50px">
+                <b>Pet's Name</b>
               </TableCell>
               <TableCell align="right" width="50px">
-                Breed
+                <b>Pet's Type</b>
               </TableCell>
               <TableCell align="right" width="50px">
-                Location
+                <b>Pet's Breed</b>
               </TableCell>
               <TableCell align="right" width="50px">
-                Location Key
+                <b> Location (City)</b>
               </TableCell>
+
               <TableCell align="right" width="50px">
-                View Details
+                <b>View Details</b>
               </TableCell>
             </TableRow>
           </TableHead>
@@ -77,7 +77,7 @@ class AllPets extends Component {
                 <TableCell align="right">{pet.type}</TableCell>
                 <TableCell align="right">{pet.breed}</TableCell>
                 <TableCell align="right">{pet.location}</TableCell>
-                <TableCell align="right">{pet.location_key}</TableCell>
+
                 <TableCell align="right">
                   <Link to={`/pets/${pet.id}/${pet.location_key}`}>View</Link>
                 </TableCell>

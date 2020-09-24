@@ -8,7 +8,7 @@ class Home extends Component {
     return (
       <div>
         <h1>Does my pet need an umbrella?</h1>
-        <p>Select a pet to find out</p>
+        <h2>Select a pet to find out</h2>
         <div>
           <AllPets />
         </div>
