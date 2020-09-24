@@ -62,6 +62,7 @@ class NewPet extends Component {
         .post(`${SHELTER_API_URL}pet`, JSON.parse(JSON.stringify(pet)))
         .then((res) => {
           if (res.status === 200) {
+            alert("New Pet saved successfully!!");
             window.location = "/"; //This line of code will redirect you once the submission is succeed
           } else {
             console.log(res);
